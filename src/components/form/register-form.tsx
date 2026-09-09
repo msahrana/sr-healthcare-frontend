@@ -5,7 +5,7 @@ import { Eye, EyeClosed } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { loginSchema } from '@/validation';
+import { registerSchema } from '@/validation';
 
 import { Button } from '../ui/button';
 import {
@@ -18,17 +18,18 @@ import {
 } from '../ui/field';
 import { Input } from '../ui/input';
 
-export default function LoginForm() {
+export default function SignupForm() {
     const [showPassword, setShowPassword] = useState(false);
 
     const form = useForm({
         defaultValues: {
+            name: '',
             email: '',
             password: '',
         },
 
         validators: {
-            onSubmit: loginSchema,
+            onSubmit: registerSchema,
         },
 
         onSubmit: ({ value }) => {
@@ -41,15 +42,15 @@ export default function LoginForm() {
             {/* Header */}
             <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold tracking-tight">
-                    Login to your account
+                    Create your account
                 </h1>
 
                 <p className="text-balance text-sm text-muted-foreground">
-                    Enter your email below to login to your account
+                    Fill in the form below to create your account
                 </p>
             </div>
 
-            {/* Login Form */}
+            {/* Register Form */}
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
@@ -57,6 +58,43 @@ export default function LoginForm() {
                 }}
             >
                 <FieldGroup>
+                    {/* Name */}
+                    <form.Field name="name">
+                        {(field) => {
+                            const isInvalid =
+                                field.state.meta.isTouched &&
+                                !field.state.meta.isValid;
+
+                            return (
+                                <Field data-invalid={isInvalid}>
+                                    <FieldLabel htmlFor={field.name}>
+                                        Name
+                                    </FieldLabel>
+
+                                    <Input
+                                        id={field.name}
+                                        name={field.name}
+                                        type="text"
+                                        placeholder="Enter your name"
+                                        onChange={(e) =>
+                                            field.handleChange(e.target.value)
+                                        }
+                                        onBlur={field.handleBlur}
+                                        value={field.state.value}
+                                        autoComplete="name"
+                                        aria-invalid={isInvalid}
+                                    />
+
+                                    {isInvalid && (
+                                        <FieldError
+                                            errors={field.state.meta.errors}
+                                        />
+                                    )}
+                                </Field>
+                            );
+                        }}
+                    </form.Field>
+
                     {/* Email */}
                     <form.Field name="email">
                         {(field) => {
@@ -124,9 +162,8 @@ export default function LoginForm() {
                                             }
                                             onBlur={field.handleBlur}
                                             value={field.state.value}
-                                            autoComplete="current-password"
+                                            autoComplete="new-password"
                                             aria-invalid={isInvalid}
-                                            className="pr-10"
                                         />
 
                                         <button
@@ -159,19 +196,9 @@ export default function LoginForm() {
                         }}
                     </form.Field>
 
-                    {/* Forgot Password */}
-                    <div className="flex justify-end">
-                        <Link
-                            href="/forgot-password"
-                            className="text-sm underline underline-offset-4 text-red-400"
-                        >
-                            Forgot password?
-                        </Link>
-                    </div>
-
                     {/* Submit */}
                     <Button type="submit" className="w-full">
-                        Login
+                        Create Account
                     </Button>
 
                     {/* Social Login Separator */}
@@ -252,14 +279,14 @@ export default function LoginForm() {
                             </Button>
                         </div>
 
-                        {/* Sign Up / Register Link */}
+                        {/* Sign In / Login Link */}
                         <FieldDescription className="text-center">
-                            Don&apos;t have an account?{' '}
+                            Already have an account?{' '}
                             <Link
-                                href="/register"
+                                href="/login"
                                 className="underline underline-offset-4"
                             >
-                                Sign Up
+                                Sign In
                             </Link>
                         </FieldDescription>
                     </Field>
