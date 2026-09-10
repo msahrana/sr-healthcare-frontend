@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/logo/logo";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
@@ -12,7 +13,7 @@ const Header = () => {
     <header className="w-full h-16 border border-b">
       <div className="flex justify-between items-center h-full max-w-7xl mx-auto">
         <div>
-          <Link href="/">SR HealthCare</Link>
+          <Logo />
         </div>
         <nav className="flex gap-5">
           {routes.map((route) => (
