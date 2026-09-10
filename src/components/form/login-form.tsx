@@ -1,13 +1,15 @@
 'use client';
 
 import { useForm } from '@tanstack/react-form';
+import { useQueryClient } from '@tanstack/react-query';
 import { Eye, EyeClosed } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
 import { useLogin } from '@/hooks';
 import { loginSchema } from '@/validation';
-import { Button } from '../ui/button';
+
 import {
     Field,
     FieldDescription,
@@ -16,6 +18,7 @@ import {
     FieldLabel,
     FieldSeparator,
 } from '../ui/field';
+import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Spinner } from '../ui/spinner';
 import { toast } from '../ui/toast';
@@ -24,6 +27,7 @@ export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const { mutate: login, isPending: loginPending } = useLogin();
 
@@ -44,12 +48,18 @@ export default function LoginForm() {
             };
 
             login(loginData, {
-                onSuccess: (res) => {
+                onSuccess: async (res) => {
+                    // Login successful হওয়ার পর current user refetch করুন
+                    await queryClient.invalidateQueries({
+                        queryKey: ['user'],
+                    });
+
                     toast.add({
                         title: 'Login Successfully!',
-                        description: res.massage || 'Welcome Back to Homepage',
+                        description: res.message || 'Welcome Back to Homepage',
                         type: 'success',
                     });
+
                     router.push('/');
                 },
 
@@ -192,7 +202,7 @@ export default function LoginForm() {
                     <div className="flex justify-end">
                         <Link
                             href="/forgot-password"
-                            className="text-sm underline underline-offset-4 text-red-400"
+                            className="text-sm text-red-400 underline underline-offset-4"
                         >
                             Forgot password?
                         </Link>
@@ -206,7 +216,8 @@ export default function LoginForm() {
                     >
                         {loginPending ? (
                             <>
-                                <Spinner /> Submitting
+                                <Spinner />
+                                Submitting
                             </>
                         ) : (
                             'Submit'
@@ -231,18 +242,22 @@ export default function LoginForm() {
                                     className="size-4"
                                 >
                                     <title>Google</title>
+
                                     <path
                                         d="M21.35 12.27c0-.78-.07-1.54-.22-2.27H12v4.3h5.22a4.46 4.46 0 0 1-1.94 2.93v2.45h3.14c1.84-1.69 2.93-4.18 2.93-7.41Z"
                                         fill="currentColor"
                                     />
+
                                     <path
                                         d="M12 21.5c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.75 9.75 0 0 0 12 21.5Z"
                                         fill="currentColor"
                                     />
+
                                     <path
                                         d="M6.54 13.58A5.86 5.86 0 0 1 6.23 12c0-.55.11-1.08.31-1.58V7.89H3.3A9.75 9.75 0 0 0 2.25 12c0 1.57.38 3.06 1.05 4.11l3.24-2.53Z"
                                         fill="currentColor"
                                     />
+
                                     <path
                                         d="M12 6.39c1.43 0 2.72.49 3.73 1.45l2.8-2.8C16.84 3.48 14.63 2.5 12 2.5a9.75 9.75 0 0 0-8.7 5.39l3.24 2.53C7.31 8.11 9.46 6.39 12 6.39Z"
                                         fill="currentColor"
@@ -264,6 +279,7 @@ export default function LoginForm() {
                                     fill="currentColor"
                                 >
                                     <title>Facebook</title>
+
                                     <path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.87.24-1.46 1.5-1.46h1.7V5c-.3-.04-1.32-.13-2.5-.13-2.47 0-4.16 1.51-4.16 4.29V11H7.3v3h2.74v8h3.46Z" />
                                 </svg>
                                 Login with Facebook
@@ -291,7 +307,7 @@ export default function LoginForm() {
                             </Button>
                         </div>
 
-                        {/* Sign Up / Register Link */}
+                        {/* Sign Up */}
                         <FieldDescription className="text-center">
                             Don&apos;t have an account?{' '}
                             <Link
