@@ -1,22 +1,38 @@
 import z from "zod";
 
-export const registerSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Name must be at least 2 characters long.")
-    .max(50, "Name must not exceed 50 characters."),
-  email: z.email("Please enter a valid email address."),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long.")
-    .regex(/[a-z]/, "Password must contain at least 1 lowercase letter.")
-    .regex(/[A-Z]/, "Password must contain at least 1 uppercase letter.")
-    .regex(/[0-9]/, "Password must contain at least 1 number.")
-    .regex(
-      /[^A-Za-z0-9]/,
-      "Password must contain at least 1 special character.",
-    ),
-});
+export const registerSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, "Name must be at least 2 characters long.")
+      .max(50, "Name must not exceed 50 characters."),
+
+    email: z.email("Please enter a valid email address."),
+
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters long.")
+      .regex(/[a-z]/, "Password must contain at least 1 lowercase letter.")
+      .regex(/[A-Z]/, "Password must contain at least 1 uppercase letter.")
+      .regex(/[0-9]/, "Password must contain at least 1 number.")
+      .regex(
+        /[^A-Za-z0-9]/,
+        "Password must contain at least 1 special character.",
+      ),
+
+    contactNumber: z
+      .string()
+      .refine((val) => val === "" || /^(?:0|\+880)1[3-9]\d{8}$/.test(val), {
+        message: "Please enter a valid Bangladeshi mobile number.",
+      })
+      .optional(),
+
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match.",
+    path: ["confirmPassword"],
+  });
 
 export const loginSchema = z.object({
   email: z.email(),

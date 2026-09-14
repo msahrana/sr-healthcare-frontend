@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import SignupForm from '@/components/form/signup-form';
 import Logo from '@/components/logo/logo';
+import VerifyAccountForm from '@/components/form/verify-account-form';
+import { Suspense } from 'react';
 
-export default function SignupPage() {
+const VerifyAccountPage = () => {
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -11,7 +12,9 @@ export default function SignupPage() {
                 </div>
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">
-                        <SignupForm />
+                        <Suspense fallback={<p>Loading...</p>}>
+                            <VerifyAccountForm />
+                        </Suspense>
                     </div>
                 </div>
             </div>
@@ -26,4 +29,6 @@ export default function SignupPage() {
             </div>
         </div>
     );
-}
+};
+
+export default VerifyAccountPage;

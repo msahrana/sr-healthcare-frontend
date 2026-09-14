@@ -1,8 +1,20 @@
-import { ICredentialLogin } from '@/interface';
+import {
+    ICredentialLogin,
+    ICredentialRegister,
+    ICredentialVerifyOTP,
+} from '@/interface';
 import apiClient from '@/lib/apiClient';
+
+export function userRegistration(payload: ICredentialRegister) {
+    return apiClient('/auth/register', { method: 'POST', body: payload });
+}
 
 export function userLogin(payload: ICredentialLogin) {
     return apiClient('/auth/login', { method: 'POST', body: payload });
+}
+
+export function verifyAccount(payload: ICredentialVerifyOTP) {
+    return apiClient('/auth/verify-email', { method: 'POST', body: payload });
 }
 
 export function userLogout() {

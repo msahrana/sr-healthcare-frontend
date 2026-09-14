@@ -27,8 +27,6 @@ export default function Logo({
         priority
       />
 
-      {/* {showText && <span>SR Healthcare</span>} */}
-
       {showText && (
         <span className="text-xl font-bold text-blue-600">SR HealthCare</span>
       )}
