@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 import {
     getMe,
@@ -9,6 +9,8 @@ import {
     verifyAccount,
 } from '@/api';
 
+import { useAuth } from '@/providers/auth.provider';
+
 export function useRegister() {
     return useMutation({
         mutationFn: userRegistration,
@@ -16,73 +18,89 @@ export function useRegister() {
 }
 
 export function useLogin() {
-    const queryClient = useQueryClient();
+    const { setUser } = useAuth();
 
     return useMutation({
         mutationFn: userLogin,
 
         onSuccess: async (res) => {
-            if (res.success) {
-                await queryClient.refetchQueries({
-                    queryKey: ['user'],
-                });
+            if (!res.success) {
+                return;
+            }
+
+            try {
+                const user = await getMe();
+
+                setUser(user);
+            } catch {
+                setUser(null);
             }
         },
     });
 }
 
 export function useVerifyAccount() {
-    const queryClient = useQueryClient();
+    const { setUser } = useAuth();
 
     return useMutation({
         mutationFn: verifyAccount,
 
         onSuccess: async (res) => {
-            if (res.success) {
-                await queryClient.refetchQueries({
-                    queryKey: ['user'],
-                });
+            if (!res.success) {
+                return;
+            }
+
+            try {
+                const user = await getMe();
+
+                setUser(user);
+            } catch {
+                setUser(null);
             }
         },
     });
 }
 
 export function useLogout() {
-    const queryClient = useQueryClient();
+    const { clearUser } = useAuth();
 
     return useMutation({
         mutationFn: userLogout,
 
-        onSuccess: async () => {
-            queryClient.setQueryData(['user'], null);
-
-            await queryClient.invalidateQueries({
-                queryKey: ['user'],
-            });
+        onSuccess: () => {
+            clearUser();
         },
     });
 }
 
 export function useGoogleOAuth() {
-    const queryClient = useQueryClient();
+    const { setUser } = useAuth();
 
     return useMutation({
         mutationFn: googleOAuth,
 
         onSuccess: async (res) => {
-            if (res.success) {
-                await queryClient.refetchQueries({
-                    queryKey: ['user'],
-                });
+            if (!res.success) {
+                return;
+            }
+
+            try {
+                const user = await getMe();
+
+                setUser(user);
+            } catch {
+                setUser(null);
             }
         },
     });
 }
 
 export function useGetMe() {
-    return useQuery({
-        queryKey: ['user'],
-        queryFn: getMe,
-        retry: false,
-    });
+    const { user, isLoading, isAuthenticated } = useAuth();
+
+    return {
+        data: user,
+        isLoading,
+        isAuthenticated,
+    };
 }

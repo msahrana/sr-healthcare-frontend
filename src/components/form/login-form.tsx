@@ -1,7 +1,6 @@
 'use client';
 
 import { useForm } from '@tanstack/react-form';
-import { useQueryClient } from '@tanstack/react-query';
 import { Eye, EyeClosed } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,6 +17,7 @@ import {
     FieldLabel,
     FieldSeparator,
 } from '../ui/field';
+
 import { Input } from '../ui/input';
 import { Spinner } from '../ui/spinner';
 import { toast } from '../ui/toast';
@@ -26,7 +26,7 @@ export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
 
     const { mutate: login, isPending: loginPending } = useLogin();
-    const queryClient = useQueryClient();
+
     const router = useRouter();
 
     const form = useForm({
@@ -46,11 +46,7 @@ export default function LoginForm() {
             };
 
             login(loginData, {
-                onSuccess: async (res) => {
-                    await queryClient.invalidateQueries({
-                        queryKey: ['user'],
-                    });
-
+                onSuccess: (res) => {
                     toast.add({
                         title: 'Login Successfully!',
                         description: res.message || 'Welcome Back to Homepage',
@@ -224,10 +220,9 @@ export default function LoginForm() {
                     {/* Social Login Separator */}
                     <FieldSeparator>Or continue with</FieldSeparator>
 
-                    {/* Social Login Buttons */}
+                    {/* Social Login */}
                     <Field>
                         <div className="flex flex-col gap-2">
-                            {/* Login with Google */}
                             <GoogleLoginComponent />
                         </div>
 

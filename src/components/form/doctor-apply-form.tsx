@@ -772,7 +772,7 @@ const DoctorApplyForm = () => {
                 </FieldGroup>
 
                 <div className="flex justify-end w-full mt-5">
-                    <Button type="submit" size="lg">
+                    <Button type="submit" size="lg" className='w-full'>
                         Submit
                     </Button>
                 </div>
