@@ -34,11 +34,13 @@ import { useApplyAsDoctor } from '@/hooks';
 import { DoctorApplicationData } from '@/interface';
 import { formatFileSize } from '@/utils';
 import {
+    doctorApplicationSchema,
     isAcceptedFileSize,
     isAcceptedFileType,
     MAX_ADDITIONAL_FILES,
     MAX_FILE_SIZE,
 } from '@/validation';
+import { toast } from '../ui/toast';
 
 //* Data signature
 // {
@@ -79,6 +81,23 @@ const DoctorApplyForm = () => {
             bio: 'My life, my rules.',
             resume: null as File | null,
             additionalFiles: [] as File[],
+
+            // name: '',
+            // email: '',
+            // phone: '',
+            // address: '',
+            // specialization: '',
+            // licenseNumber: '',
+            // qualifications: '',
+            // experienceYears: '',
+            // consultationFee: '',
+            // bio: '',
+            // resume: null as File | null,
+            // additionalFiles: [] as File[],
+        },
+
+        validators: {
+            onSubmit: doctorApplicationSchema,
         },
 
         onSubmit: async ({ value }) => {
@@ -109,8 +128,39 @@ const DoctorApplyForm = () => {
                 },
                 {
                     onSuccess: (res) => {
-                        console.log(res);
-                        router.push('/');
+                        if (!res.success) {
+                            toast.add({
+                                title: 'Server Failure',
+                                description:
+                                    'Something went wrong. Please try again',
+                                type: 'error',
+                            });
+                            return;
+                        }
+
+                        toast.add({
+                            title: 'Application Submitted',
+                            description: 'Please verify your account',
+                            type: 'success',
+                        });
+
+                        const params = new URLSearchParams({
+                            email: doctorData.user.email,
+                        });
+
+                        router.push(
+                            `/applyAsDoctor/verify-account?${params.toString()}`,
+                        );
+                    },
+
+                    onError: (err) => {
+                        toast.add({
+                            title: 'Application failure',
+                            description:
+                                err.message ||
+                                'Something went wrong. Please try again',
+                            type: 'error',
+                        });
                     },
                 },
             );
@@ -121,7 +171,7 @@ const DoctorApplyForm = () => {
         <div className="flex flex-col gap-6 ">
             <div className="flex flex-col gap-2 text-center">
                 <h1 className="text-2xl font-bold tracking-tight">
-                    Apply to join PH Healthcare
+                    Apply to join SR Healthcare
                 </h1>
             </div>
 
@@ -143,7 +193,7 @@ const DoctorApplyForm = () => {
                                 return (
                                     <Field data-invalid={isInvalid}>
                                         <FieldLabel htmlFor={field.name}>
-                                            Full name
+                                            Full Name
                                         </FieldLabel>
                                         <div className="relative">
                                             <User className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -182,7 +232,7 @@ const DoctorApplyForm = () => {
                                 return (
                                     <Field data-invalid={isInvalid}>
                                         <FieldLabel htmlFor={field.name}>
-                                            Email address
+                                            Email Address
                                         </FieldLabel>
                                         <div className="relative">
                                             <Mail className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -221,7 +271,7 @@ const DoctorApplyForm = () => {
                                 return (
                                     <Field data-invalid={isInvalid}>
                                         <FieldLabel htmlFor={field.name}>
-                                            Contact number
+                                            Contact Number
                                         </FieldLabel>
                                         <div className="relative">
                                             <Phone className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -260,7 +310,7 @@ const DoctorApplyForm = () => {
                                 return (
                                     <Field data-invalid={isInvalid}>
                                         <FieldLabel htmlFor={field.name}>
-                                            Practice address{' '}
+                                            Practice Address
                                             <span className="font-normal text-muted-foreground">
                                                 (optional)
                                             </span>
@@ -342,7 +392,7 @@ const DoctorApplyForm = () => {
                                 return (
                                     <Field data-invalid={isInvalid}>
                                         <FieldLabel htmlFor={field.name}>
-                                            BMDC registration number
+                                            BMDC Registration Number
                                         </FieldLabel>
                                         <div className="relative">
                                             <BadgeCheck className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -418,7 +468,7 @@ const DoctorApplyForm = () => {
                                 return (
                                     <Field data-invalid={isInvalid}>
                                         <FieldLabel htmlFor={field.name}>
-                                            Years of experience
+                                            Years of Experience
                                         </FieldLabel>
                                         <div className="relative">
                                             <BriefcaseMedical className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -461,7 +511,7 @@ const DoctorApplyForm = () => {
                                 return (
                                     <Field data-invalid={isInvalid}>
                                         <FieldLabel htmlFor={field.name}>
-                                            Consultation fee (BDT){' '}
+                                            Consultation Fee (BDT){' '}
                                             <span className="font-normal text-muted-foreground">
                                                 (optional)
                                             </span>
@@ -506,7 +556,7 @@ const DoctorApplyForm = () => {
                             return (
                                 <Field data-invalid={isInvalid}>
                                     <FieldLabel htmlFor={field.name}>
-                                        Professional bio{' '}
+                                        Professional Bio
                                         <span className="font-normal text-muted-foreground">
                                             (optional)
                                         </span>
@@ -558,7 +608,7 @@ const DoctorApplyForm = () => {
                                         <Button
                                             type="button"
                                             variant="outline"
-                                             className='bg-blue-200 '
+                                            className="bg-blue-200 "
                                             onClick={() =>
                                                 resumeInputRef.current?.click()
                                             }
@@ -650,13 +700,16 @@ const DoctorApplyForm = () => {
                                 <Field data-invalid={isInvalid}>
                                     <FieldLabel htmlFor="additional-file-field">
                                         Additional Files
+                                        <span className="font-normal text-muted-foreground">
+                                            (optional)
+                                        </span>
                                     </FieldLabel>
 
                                     <div className="flex flex-wrap items-center gap-3">
                                         <Button
                                             type="button"
                                             variant="outline"
-                                            className='bg-blue-200 '
+                                            className="bg-blue-200 "
                                             onClick={() =>
                                                 additionalFileInputRef.current?.click()
                                             }
@@ -772,7 +825,7 @@ const DoctorApplyForm = () => {
                 </FieldGroup>
 
                 <div className="flex justify-end w-full mt-5">
-                    <Button type="submit" size="lg" className='w-full'>
+                    <Button type="submit" size="lg" className="w-full">
                         Submit
                     </Button>
                 </div>

@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Logo from '@/components/logo/logo';
 import VerifyAccountForm from '@/components/form/verify-account-form';
+
 import { Suspense } from 'react';
 
-const VerifyAccountPage = () => {
+export default function VerifyDoctorAccountPage() {
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -14,7 +15,7 @@ const VerifyAccountPage = () => {
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">
                         <Suspense fallback={<p>Loading...</p>}>
-                            <VerifyAccountForm mode="patient" />
+                            <VerifyAccountForm mode="doctor" />
                         </Suspense>
                     </div>
                 </div>
@@ -31,6 +32,4 @@ const VerifyAccountPage = () => {
             </div>
         </div>
     );
-};
-
-export default VerifyAccountPage;
+}

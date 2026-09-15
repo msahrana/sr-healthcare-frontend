@@ -1,4 +1,4 @@
-import { DoctorApplicationPayload } from '@/interface';
+import { DoctorApplicationPayload, ICredentialVerifyOTP } from '@/interface';
 import apiClient from '@/lib/apiClient';
 
 export function applyAsDoctor(payload: DoctorApplicationPayload) {
@@ -14,5 +14,12 @@ export function applyAsDoctor(payload: DoctorApplicationPayload) {
     return apiClient('/doctor/apply-as-doctor', {
         method: 'POST',
         body: formData,
+    });
+}
+
+export function verifyDoctorAccount(payload: ICredentialVerifyOTP) {
+    return apiClient('/doctor/apply-as-doctor/verify-email', {
+        method: 'POST',
+        body: payload,
     });
 }
