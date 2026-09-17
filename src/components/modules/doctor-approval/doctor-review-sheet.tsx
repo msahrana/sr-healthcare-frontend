@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+
 import {
     Sheet,
     SheetContent,
@@ -11,9 +12,13 @@ import {
 export default function DoctorReviewSheet() {
     return (
         <Sheet>
-            <SheetTrigger>
-                <Button variant="outline">Review</Button>
-            </SheetTrigger>
+            <SheetTrigger
+                render={
+                    <Button variant="outline">
+                        Review
+                    </Button>
+                }
+            />
             <SheetContent>
                 <SheetHeader>
                     <SheetTitle>Are you absolutely sure?</SheetTitle>

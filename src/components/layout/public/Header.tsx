@@ -32,8 +32,8 @@ export default function Header() {
         logout(undefined, {
             onSuccess: () => {
                 toast.add({
-                    title: 'Tata',
-                    description: 'Logged out successfully',
+                    title: 'Logout Successful!',
+                    description: 'You have been logged out successfully.',
                     type: 'success',
                 });
                 queryClient.removeQueries({ queryKey: ['user'] });
@@ -41,7 +41,7 @@ export default function Header() {
             onError: () => {
                 toast.add({
                     title: 'Logout failed',
-                    description: 'Something Went Wrong',
+                    description: 'Something went wrong. Please try later.',
                     type: 'error',
                 });
             },
@@ -67,7 +67,6 @@ export default function Header() {
                 <div>
                     {!isLoading && !data && (
                         <Button
-                            variant="outline"
                             render={<Link href="/login">Login</Link>}
                             nativeButton={false}
                         >

@@ -20,7 +20,9 @@ export default function DoctorApprovalTable() {
                 </TableHeader>
                 <TableBody>
                     <TableRow>
-                        <TableCell className="font-medium">Dr Siyana</TableCell>
+                        <TableCell className="font-medium">
+                            Dr Satiatit Taiyeba (Siyana)
+                        </TableCell>
                         <TableCell className="text-right">
                             <DoctorReviewSheet />
                         </TableCell>
