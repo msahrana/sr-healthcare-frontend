@@ -5,7 +5,7 @@ import DashboardShell from '@/components/dashboard/dashboard-shell';
 const DoctorLayout = ({ children }: { children: ReactNode }) => {
     return (
         <RoleGuard roles={['DOCTOR']}>
-            <DashboardShell role="DOCTOR">{children}</DashboardShell>
+            <DashboardShell userRole="DOCTOR">{children}</DashboardShell>
         </RoleGuard>
     );
 };
