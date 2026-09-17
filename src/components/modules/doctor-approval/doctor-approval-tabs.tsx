@@ -1,12 +1,14 @@
 'use client';
 
 import { Suspense, useState } from 'react';
+
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DoctorParams, DoctorVerificationStatus } from '@/interface';
+
 import DoctorApprovalTable from './doctor-approval-table';
 import DoctorApprovalTableLoading from './doctor-approval-table-loading';
-import { Input } from '@/components/ui/input';
 import DoctorReviewSheet from './doctor-review-sheet';
-import { DoctorParams, DoctorVerificationStatus } from '@/interface';
 
 const verificationStatus: ['ALL' | DoctorVerificationStatus, string][] = [
     ['APPROVED', 'Approved'],
@@ -18,7 +20,6 @@ const verificationStatus: ['ALL' | DoctorVerificationStatus, string][] = [
 export default function DoctorApprovalTabs() {
     const [tab, setTab] = useState<'ALL' | DoctorVerificationStatus>('ALL');
     const [selectedId, setSelectedId] = useState('');
-    console.log(tab);
 
     const queryParams: DoctorParams = {
         page: 1,
