@@ -1,4 +1,11 @@
-import { DoctorApplicationPayload, ICredentialVerifyOTP } from '@/interface';
+import {
+    ApiResponse,
+    ApproveDoctorPayload,
+    Doctor,
+    DoctorApplicationPayload,
+    DoctorParams,
+    ICredentialVerifyOTP,
+} from '@/interface';
 import apiClient from '@/lib/apiClient';
 
 export function applyAsDoctor(payload: DoctorApplicationPayload) {
@@ -19,6 +26,19 @@ export function applyAsDoctor(payload: DoctorApplicationPayload) {
 
 export function verifyDoctorAccount(payload: ICredentialVerifyOTP) {
     return apiClient('/doctor/apply-as-doctor/verify-email', {
+        method: 'POST',
+        body: payload,
+    });
+}
+
+export function getAllDoctors(params: DoctorParams) {
+    return apiClient<ApiResponse<Doctor[]>>('/doctor/all-doctors', {
+        params,
+    });
+}
+
+export function approveDoctor(payload: ApproveDoctorPayload) {
+    return apiClient('/doctor/approve-doctor', {
         method: 'POST',
         body: payload,
     });
