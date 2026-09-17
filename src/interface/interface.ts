@@ -39,3 +39,24 @@ export interface DoctorApplicationPayload {
     additionalFiles: File[];
     data: DoctorApplicationData;
 }
+
+export interface SidebarItem {
+    title: string;
+    url: string;
+}
+
+export interface SidebarGroup {
+    title: string;
+    items: SidebarItem[];
+}
+
+export type SidebarItems = SidebarGroup[];
+
+export type UserRole = 'SUPER_ADMIN' | 'ADMIN' | 'DOCTOR' | 'PATIENT';
+
+export interface IUser {
+    id: string;
+    name: string;
+    email: string;
+    role: UserRole;
+}

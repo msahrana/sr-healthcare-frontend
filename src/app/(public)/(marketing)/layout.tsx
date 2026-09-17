@@ -1,11 +1,15 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+import Footer from '@/components/layout/public/Footer';
+import Header from '@/components/layout/public/Header';
 
 const PublicLayout = ({ children }: { children: ReactNode }) => {
-  return (
-    <div>
-      <main>{children}</main>
-    </div>
-  );
+    return (
+        <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+        </div>
+    );
 };
 
 export default PublicLayout;

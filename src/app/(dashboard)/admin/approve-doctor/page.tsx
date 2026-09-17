@@ -1,9 +1,9 @@
-const AdminPage = () => {
-  return (
-    <div>
-      <h1>Admin Page</h1>
-    </div>
-  );
+const AdminApprovePage = () => {
+    return (
+        <div>
+            <h1>Admin Approve Page Here...</h1>
+        </div>
+    );
 };
 
-export default AdminPage;
+export default AdminApprovePage;

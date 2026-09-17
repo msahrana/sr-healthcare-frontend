@@ -1,59 +1,47 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-
-import { useRouter } from 'next/navigation';
-
-import { useAuth } from '@/providers/auth.provider';
-
-import { useLogout } from '@/hooks';
-
-import { Button } from '@/components/ui/button';
-
-import { toast } from '@/components/ui/toast';
-
 import Logo from '@/components/logo/logo';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/toast';
+import { useGetMe, useLogout } from '@/hooks';
+import { UserRole } from '@/interface';
 
-const Header = () => {
-    const router = useRouter();
-
-    const { user, isLoading } = useAuth();
-
-    const { mutate: logout, isPending: logoutPending } = useLogout();
-
+export default function Header() {
     const routes = [
-        {
-            name: 'Home',
-            url: '/',
-        },
-        {
-            name: 'About Us',
-            url: '/about-us',
-        },
-        {
-            name: 'Contact Us',
-            url: '/contact-us',
-        },
+        { name: 'Home', url: '/' },
+        { name: 'About Us', url: '/about-us' },
+        { name: 'Contact Us', url: '/contact-us' },
     ];
+
+    const dashboardRoute: Record<UserRole, string> = {
+        SUPER_ADMIN: '/admin',
+        ADMIN: '/admin',
+        DOCTOR: '/doctor',
+        PATIENT: '/patient',
+    };
+
+    const { data, isLoading } = useGetMe();
+    const { mutate: logout } = useLogout();
+    const queryClient = useQueryClient();
+
+    const role: UserRole = !!data?.data && data?.data.role;
 
     const handleLogout = () => {
         logout(undefined, {
             onSuccess: () => {
                 toast.add({
-                    title: 'Logout Successful',
-                    description: 'You have been logged out successfully.',
+                    title: 'Tata',
+                    description: 'Logged out successfully',
                     type: 'success',
                 });
-
-                router.push('/login');
+                queryClient.removeQueries({ queryKey: ['user'] });
             },
-
-            onError: (error) => {
+            onError: () => {
                 toast.add({
-                    title: 'Logout Failed',
-                    description:
-                        error.message ||
-                        'Something went wrong. Please try again later.',
+                    title: 'Logout failed',
+                    description: 'Something Went Wrong',
                     type: 'error',
                 });
             },
@@ -61,9 +49,9 @@ const Header = () => {
     };
 
     return (
-        <header className="h-16 w-full border-b">
-            <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
-                <div>
+        <header className="w-full h-16 border border-b">
+            <div className="flex justify-between items-center h-full max-w-7xl mx-auto">
+                <div className="flex items-center gap-2">
                     <Logo />
                 </div>
 
@@ -73,31 +61,26 @@ const Header = () => {
                             {route.name}
                         </Link>
                     ))}
-                </nav>
 
+                    {role && <Link href={dashboardRoute[role]}>Dashboard</Link>}
+                </nav>
                 <div>
-                    {!isLoading && !user && (
+                    {!isLoading && !data && (
                         <Button
-                            render={<Link href="/login" />}
+                            variant="outline"
+                            render={<Link href="/login">Login</Link>}
                             nativeButton={false}
                         >
                             Login
                         </Button>
                     )}
-
-                    {!isLoading && user && (
-                        <Button
-                            onClick={handleLogout}
-                            variant="destructive"
-                            disabled={logoutPending}
-                        >
-                            {logoutPending ? 'Logging out...' : 'Logout'}
+                    {!isLoading && data && (
+                        <Button onClick={handleLogout} variant="destructive">
+                            Logout
                         </Button>
                     )}
                 </div>
             </div>
         </header>
     );
-};
-
-export default Header;
+}

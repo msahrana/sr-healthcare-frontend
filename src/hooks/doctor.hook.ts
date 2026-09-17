@@ -8,7 +8,7 @@ export function useApplyAsDoctor() {
 }
 
 export function useVerifyDoctorAccount() {
-  return useMutation({
-    mutationFn: verifyDoctorAccount,
-  });
+    return useMutation({
+        mutationFn: verifyDoctorAccount,
+    });
 }
