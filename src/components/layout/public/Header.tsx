@@ -13,6 +13,7 @@ export default function Header() {
         { name: 'Home', url: '/' },
         { name: 'About Us', url: '/about-us' },
         { name: 'Contact Us', url: '/contact-us' },
+        { name: 'ApplyAsDoctor', url: '/applyAsDoctor' },
     ];
 
     const dashboardRoute: Record<UserRole, string> = {

@@ -38,13 +38,13 @@ export function useSuspenseGetAllDoctors(params: DoctorParams) {
     });
 }
 
-export function useApproveDoctor(params: DoctorParams) {
+export function useApproveDoctor() {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: approveDoctor,
         onSuccess: () => {
-            queryClient.removeQueries({ queryKey: ['doctors', params] });
+            queryClient.invalidateQueries({ queryKey: ['doctors'] });
         },
     });
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { ChangeEvent, Suspense, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,6 +9,7 @@ import { DoctorParams, DoctorVerificationStatus } from '@/interface';
 import DoctorApprovalTable from './doctor-approval-table';
 import DoctorApprovalTableLoading from './doctor-approval-table-loading';
 import DoctorReviewSheet from './doctor-review-sheet';
+import useDebounce from '@/hooks/debounce.hook';
 
 const verificationStatus: ['ALL' | DoctorVerificationStatus, string][] = [
     ['APPROVED', 'Approved'],
@@ -20,11 +21,23 @@ const verificationStatus: ['ALL' | DoctorVerificationStatus, string][] = [
 export default function DoctorApprovalTabs() {
     const [tab, setTab] = useState<'ALL' | DoctorVerificationStatus>('ALL');
     const [selectedId, setSelectedId] = useState('');
+    const [searchInput, setSearchInput] = useState('');
+    const [page, setPage] = useState(1);
+
+    const debouncedSearch = useDebounce(searchInput);
+
+    const handleSearch = (
+        e: ChangeEvent<HTMLInputElement, HTMLInputElement>,
+    ) => {
+        setSearchInput(e.target.value);
+        setPage(1);
+    };
 
     const queryParams: DoctorParams = {
-        page: 1,
-        limit: 10,
+        page,
+        limit: 1,
         ...(tab === 'ALL' ? {} : { verificationStatus: tab }),
+        ...(debouncedSearch ? { searchTerm: debouncedSearch } : {}),
     };
 
     return (
@@ -32,6 +45,7 @@ export default function DoctorApprovalTabs() {
             <div className="flex justify-between my-5">
                 <div>
                     <Input
+                        onChange={(e) => handleSearch(e)}
                         type="search"
                         placeholder="Search by name or email"
                     />
@@ -52,6 +66,7 @@ export default function DoctorApprovalTabs() {
                 <DoctorApprovalTable
                     {...queryParams}
                     handleReview={setSelectedId}
+                    handlePageChange={setPage}
                 />
             </Suspense>
 

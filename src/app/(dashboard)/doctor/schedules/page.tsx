@@ -1,0 +1,19 @@
+import ScheduleList from '@/components/modules/doctor-schedule/schedule-list';
+
+const Schedule = () => {
+    return (
+        <section className="p-5">
+            <div>
+                <h1 className="text-2xl">My schedules</h1>
+                <p>
+                    Create schedules, publish them for booking, or delete
+                    drafts.
+                </p>
+            </div>
+
+            <ScheduleList />
+        </section>
+    );
+};
+
+export default Schedule;

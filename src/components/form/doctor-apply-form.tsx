@@ -61,6 +61,8 @@ import { toast } from '../ui/toast';
 // }
 
 const DoctorApplyForm = () => {
+    // const [showPassword, setShowPassword] = useState(false);
+
     const router = useRouter();
     const { mutate: apply } = useApplyAsDoctor();
 
@@ -71,6 +73,7 @@ const DoctorApplyForm = () => {
         defaultValues: {
             name: 'Dr Siyana',
             email: 'drsiyana@gmail.com',
+            password: 'PAssWord5288$@@',
             phone: '01912345678',
             address: 'RMCH, Rangpur',
             specialization: 'Cardiologist',
@@ -105,6 +108,7 @@ const DoctorApplyForm = () => {
                 user: {
                     name: value.name.trim(),
                     email: value.email.trim(),
+                    password: value.password.trim(),
                 },
                 doctor: {
                     specialization: value.specialization.trim(),
@@ -169,12 +173,14 @@ const DoctorApplyForm = () => {
 
     return (
         <div className="flex flex-col gap-6 ">
+            {/* Header */}
             <div className="flex flex-col gap-2 text-center">
                 <h1 className="text-2xl font-bold tracking-tight">
                     Apply to join SR Healthcare
                 </h1>
             </div>
 
+            {/* Register Form */}
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
@@ -185,6 +191,7 @@ const DoctorApplyForm = () => {
             >
                 <FieldGroup>
                     <div className="grid gap-5 sm:grid-cols-2">
+                        {/* Name */}
                         <form.Field name="name">
                             {(field) => {
                                 const isInvalid =
@@ -224,6 +231,7 @@ const DoctorApplyForm = () => {
                             }}
                         </form.Field>
 
+                        {/* Email */}
                         <form.Field name="email">
                             {(field) => {
                                 const isInvalid =
@@ -263,6 +271,73 @@ const DoctorApplyForm = () => {
                             }}
                         </form.Field>
 
+                        {/* Password */}
+                        {/* <form.Field name="password">
+                            {(field) => {
+                                const isInvalid =
+                                    field.state.meta.isTouched &&
+                                    !field.state.meta.isValid;
+
+                                return (
+                                    <Field data-invalid={isInvalid}>
+                                        <FieldLabel htmlFor={field.name}>
+                                            Password
+                                        </FieldLabel>
+
+                                        <div className="relative">
+                                            <Input
+                                                id={field.name}
+                                                name={field.name}
+                                                type={
+                                                    showPassword
+                                                        ? 'text'
+                                                        : 'password'
+                                                }
+                                                placeholder="Enter your password"
+                                                onChange={(e) =>
+                                                    field.handleChange(
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                onBlur={field.handleBlur}
+                                                value={field.state.value}
+                                                autoComplete="new-password"
+                                                aria-invalid={isInvalid}
+                                            />
+
+                                            <button
+                                                type="button"
+                                                className="absolute right-3 top-1/2 -translate-y-1/2"
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        (prev) => !prev,
+                                                    )
+                                                }
+                                                aria-label={
+                                                    showPassword
+                                                        ? 'Hide password'
+                                                        : 'Show password'
+                                                }
+                                            >
+                                                {showPassword ? (
+                                                    <EyeClosed className="size-4" />
+                                                ) : (
+                                                    <Eye className="size-4" />
+                                                )}
+                                            </button>
+                                        </div>
+
+                                        {isInvalid && (
+                                            <FieldError
+                                                errors={field.state.meta.errors}
+                                            />
+                                        )}
+                                    </Field>
+                                );
+                            }}
+                        </form.Field> */}
+
+                        {/* Phone */}
                         <form.Field name="phone">
                             {(field) => {
                                 const isInvalid =
@@ -302,6 +377,7 @@ const DoctorApplyForm = () => {
                             }}
                         </form.Field>
 
+                        {/* Address */}
                         <form.Field name="address">
                             {(field) => {
                                 const isInvalid =
@@ -343,9 +419,8 @@ const DoctorApplyForm = () => {
                                 );
                             }}
                         </form.Field>
-                    </div>
 
-                    <div className="grid gap-5 sm:grid-cols-2">
+                        {/* Specialization */}
                         <form.Field name="specialization">
                             {(field) => {
                                 const isInvalid =
@@ -384,6 +459,7 @@ const DoctorApplyForm = () => {
                             }}
                         </form.Field>
 
+                        {/* License Number */}
                         <form.Field name="licenseNumber">
                             {(field) => {
                                 const isInvalid =
@@ -422,6 +498,7 @@ const DoctorApplyForm = () => {
                             }}
                         </form.Field>
 
+                        {/* Qualifications */}
                         <form.Field name="qualifications">
                             {(field) => {
                                 const isInvalid =
@@ -460,6 +537,7 @@ const DoctorApplyForm = () => {
                             }}
                         </form.Field>
 
+                        {/* Experience */}
                         <form.Field name="experienceYears">
                             {(field) => {
                                 const isInvalid =
@@ -500,9 +578,8 @@ const DoctorApplyForm = () => {
                                 );
                             }}
                         </form.Field>
-                    </div>
 
-                    <div className="grid gap-5 sm:grid-cols-2">
+                        {/* ConsultationFee */}
                         <form.Field name="consultationFee">
                             {(field) => {
                                 const isInvalid =
@@ -548,6 +625,7 @@ const DoctorApplyForm = () => {
                         </form.Field>
                     </div>
 
+                    {/* Bio */}
                     <form.Field name="bio">
                         {(field) => {
                             const isInvalid =
@@ -592,6 +670,7 @@ const DoctorApplyForm = () => {
                         }}
                     </form.Field>
 
+                    {/* Resume */}
                     <form.Field name="resume">
                         {(field) => {
                             const isInvalid =
@@ -690,6 +769,7 @@ const DoctorApplyForm = () => {
                         }}
                     </form.Field>
 
+                    {/* AdditionalFiles */}
                     <form.Field name="additionalFiles">
                         {(field) => {
                             const isInvalid =
@@ -824,6 +904,7 @@ const DoctorApplyForm = () => {
                     </form.Field>
                 </FieldGroup>
 
+                {/* Submit */}
                 <div className="flex justify-end w-full mt-5">
                     <Button type="submit" size="lg" className="w-full">
                         Submit
@@ -831,6 +912,7 @@ const DoctorApplyForm = () => {
                 </div>
             </form>
 
+            {/* Sign In / Login Link */}
             <p className="text-xs leading-relaxed text-muted-foreground">
                 Already an approved doctor?{' '}
                 <Link

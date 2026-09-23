@@ -9,12 +9,14 @@ export default function SignupPage() {
                 <div className="flex justify-center gap-2 md:justify-start">
                     <Logo />
                 </div>
+
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">
                         <SignupForm />
                     </div>
                 </div>
             </div>
+
             <div className="relative hidden bg-muted lg:block">
                 <Image
                     src="/register.jpg"

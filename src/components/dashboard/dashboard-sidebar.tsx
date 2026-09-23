@@ -34,6 +34,7 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
             <SidebarHeader>
                 <Logo />
             </SidebarHeader>
+
             <SidebarContent>
                 {routes.map((item) => (
                     <SidebarGroup key={item.title}>

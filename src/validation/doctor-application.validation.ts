@@ -44,6 +44,17 @@ export const doctorApplicationSchema = z.object({
 
     email: z.email('Please enter a valid email address'),
 
+    password: z
+        .string().trim()
+        .min(8, 'Password Must Minimum 8 Characters Long.')
+        .regex(/[a-z]/, 'Password must contain at least 1 Lowercase Letter')
+        .regex(/[A-Z]/, 'Password must contain at least 1 Uppercase Letter')
+        .regex(/[0-9]/, 'Password must contain at least 1 Number')
+        .regex(
+            /[^A-Za-z0-9]/,
+            'Password must contain at least 1 Special Character',
+        ),
+
     phone: z.string().trim().min(5, 'Contact number is invalid'),
 
     address: z.string().trim(),
@@ -104,3 +115,32 @@ export const doctorApplicationSchema = z.object({
             },
         ),
 });
+
+export const loginSchema = z.object({
+    email: z.email(),
+    password: z
+        .string()
+        .min(8, 'Password Must Minimum 8 Characters Long.')
+        .regex(/[a-z]/, 'Password must contain at least 1 Lowercase Letter')
+        .regex(/[A-Z]/, 'Password must contain at least 1 Uppercase Letter')
+        .regex(/[0-9]/, 'Password must contain at least 1 Number')
+        .regex(
+            /[^A-Za-z0-9]/,
+            'Password must contain at least 1 Special Character',
+        ),
+});
+
+export const changePasswordSchema = z
+    .object({
+        currentPassword: z.string().min(1, 'Current password is required'),
+
+        newPassword: z
+            .string()
+            .min(6, 'New password must be at least 6 characters'),
+
+        confirmPassword: z.string().min(1, 'Please confirm your new password'),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+        message: 'Passwords do not match',
+        path: ['confirmPassword'],
+    });

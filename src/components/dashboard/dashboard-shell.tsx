@@ -7,10 +7,14 @@ import {
 import { UserRole } from '@/interface';
 import { DashboardSidebar } from './dashboard-sidebar';
 
-interface DashboardShellProps { children: ReactNode; userRole: UserRole; }
+interface DashboardShellProps {
+    children: ReactNode;
+    userRole: UserRole;
+}
 
 export default function DashboardShell({
-    children, userRole,
+    children,
+    userRole,
 }: DashboardShellProps) {
     return (
         <SidebarProvider>
