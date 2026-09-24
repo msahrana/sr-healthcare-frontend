@@ -1,3 +1,11 @@
+import { Separator } from '@base-ui/react';
+import {
+    BadgeCheck,
+    Mail,
+    Phone,
+    ShieldCheck,
+    Stethoscope,
+} from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,7 +16,9 @@ import {
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
+import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
+import { toast } from '@/components/ui/toast';
 import { useApproveDoctor, useGetAllDoctors } from '@/hooks';
 import { ApproveDoctorPayload, DoctorParams } from '@/interface';
 
@@ -26,7 +36,7 @@ export default function DoctorReviewSheet({
     const [rejectionReason, setRejectionReason] = useState('');
 
     const { data } = useGetAllDoctors(params);
-    const { mutate: verify } = useApproveDoctor(params);
+    const { mutate: verify, isPending } = useApproveDoctor();
 
     const selectedDoctor = data?.data?.find(
         (doctor) => doctor.id === selectedId,
@@ -47,11 +57,22 @@ export default function DoctorReviewSheet({
 
         verify(reviewData, {
             onSuccess: (res) => {
-                console.log('Success', res);
+                toast.add({
+                    title: 'Schedule Published',
+                    description: res.massage || 'Patients can now book slots',
+                    type: 'success',
+                });
+
                 handleClose();
             },
-            onError: (error) => {
-                console.log('Error', error);
+            onError: (err) => {
+                toast.add({
+                    title: 'Publish failed',
+                    description:
+                        err.message || 'Something went wrong. Please try again',
+                    type: 'error',
+                });
+                handleClose();
             },
         });
     };
@@ -60,17 +81,124 @@ export default function DoctorReviewSheet({
         return null;
     }
 
+    const detailRow = (label: string, value?: string | number | null) => (
+        <div className="flex items-start justify-between gap-4 text-sm">
+            <span className="shrink-0 text-muted-foreground">{label}</span>
+            <span className="text-right font-medium wrap-break-words">
+                {value ?? (
+                    <span className="font-normal text-muted-foreground">—</span>
+                )}
+            </span>
+        </div>
+    );
+
     return (
         <Sheet open={!!selectedId} onOpenChange={handleClose}>
-            <SheetContent side="left">
-                <SheetHeader>
+            <SheetContent side="left" className="gap-0 sm:max-w-md">
+                <SheetHeader className="border-b">
                     <SheetTitle>Review and take action</SheetTitle>
                     <SheetDescription>
                         This action cannot be undone.
                     </SheetDescription>
                 </SheetHeader>
-                Doctor Name: {selectedDoctor.name}
-                <SheetFooter>
+
+                <div className="flex-1 space-y-5 overflow-y-auto px-4 py-5">
+                    <div className="flex items-start gap-3">
+                        <span className="rounded-full bg-primary/10 p-2.5">
+                            <Stethoscope className="size-5 text-primary" />
+                        </span>
+                        <div className="min-w-0">
+                            <p className="truncate font-semibold">
+                                {selectedDoctor.name}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                                {selectedDoctor.specialization}
+                            </p>
+                        </div>
+                    </div>
+
+                    <Separator />
+
+                    <div className="space-y-3">
+                        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                            Contact
+                        </p>
+                        <div className="flex items-center gap-2 text-sm">
+                            <Mail className="size-4 shrink-0 text-muted-foreground" />
+                            <span
+                                className="truncate"
+                                title={selectedDoctor.email}
+                            >
+                                {selectedDoctor.email}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm">
+                            <Phone className="size-4 shrink-0 text-muted-foreground" />
+                            <span>{selectedDoctor.contactNumber ?? '—'}</span>
+                        </div>
+                    </div>
+
+                    <Separator />
+
+                    <div className="space-y-3">
+                        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                            Credentials
+                        </p>
+                        {detailRow('License no.', selectedDoctor.licenseNumber)}
+                        {detailRow(
+                            'Qualifications',
+                            selectedDoctor.qualifications,
+                        )}
+                        {detailRow(
+                            'Experience',
+                            selectedDoctor.experienceYears != null
+                                ? `${selectedDoctor.experienceYears} yrs`
+                                : null,
+                        )}
+                        {detailRow(
+                            'Consultation fee',
+                            selectedDoctor.consultationFee != null
+                                ? `$${selectedDoctor.consultationFee}`
+                                : null,
+                        )}
+                    </div>
+
+                    {selectedDoctor.bio && (
+                        <>
+                            <Separator />
+                            <div className="space-y-2">
+                                <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                                    Bio
+                                </p>
+                                <p className="text-sm leading-relaxed text-muted-foreground">
+                                    {selectedDoctor.bio}
+                                </p>
+                            </div>
+                        </>
+                    )}
+
+                    <Separator />
+
+                    <div className="space-y-3">
+                        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                            Verification
+                        </p>
+                        <div className="flex items-center gap-2 text-sm">
+                            <ShieldCheck className="size-4 shrink-0 text-muted-foreground" />
+                            <span>{selectedDoctor.verificationStatus}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm">
+                            <BadgeCheck className="size-4 shrink-0 text-muted-foreground" />
+                            <span>
+                                {selectedDoctor.user.emailVerified
+                                    ? 'Email verified'
+                                    : 'Email not verified'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <SheetFooter className="border-t">
                     {confirmRejection ? (
                         <div className="flex flex-col gap-3">
                             <Textarea
@@ -78,6 +206,10 @@ export default function DoctorReviewSheet({
                                 onChange={(e) =>
                                     setRejectionReason(e.target.value)
                                 }
+                                placeholder="Tell the doctor why this application is being rejected…"
+                                rows={4}
+                                disabled={isPending}
+                                autoFocus
                             />
 
                             <div className="flex gap-2">
@@ -86,6 +218,7 @@ export default function DoctorReviewSheet({
                                     variant="outline"
                                     size="lg"
                                     className="flex-1"
+                                    disabled={isPending}
                                 >
                                     Cancel
                                 </Button>
@@ -97,9 +230,14 @@ export default function DoctorReviewSheet({
                                     variant="destructive"
                                     size="lg"
                                     className="flex-1"
-                                    disabled={!rejectionReason}
+                                    disabled={
+                                        !rejectionReason.trim() || isPending
+                                    }
                                 >
-                                    Confirm Rejection
+                                    {isPending && <Spinner />}
+                                    {isPending
+                                        ? 'Rejecting…'
+                                        : 'Confirm Rejection'}
                                 </Button>
                             </div>
                         </div>
@@ -110,6 +248,7 @@ export default function DoctorReviewSheet({
                                 variant="destructive"
                                 size="lg"
                                 className="flex-1"
+                                disabled={isPending}
                             >
                                 Reject
                             </Button>
@@ -119,8 +258,10 @@ export default function DoctorReviewSheet({
                                 variant="default"
                                 size="lg"
                                 className="flex-1"
+                                disabled={isPending}
                             >
-                                Approve
+                                {isPending && <Spinner />}
+                                {isPending ? 'Approving…' : 'Approve'}
                             </Button>
                         </div>
                     )}

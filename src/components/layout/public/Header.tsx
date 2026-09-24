@@ -11,8 +11,9 @@ import { UserRole } from '@/interface';
 export default function Header() {
     const routes = [
         { name: 'Home', url: '/' },
-        { name: 'About Us', url: '/about-us' },
-        { name: 'Contact Us', url: '/contact-us' },
+        { name: 'Doctors', url: '/doctors' },
+        { name: 'About', url: '/about-us' },
+        { name: 'Contact', url: '/contact-us' },
         { name: 'ApplyAsDoctor', url: '/applyAsDoctor' },
     ];
 
@@ -20,7 +21,7 @@ export default function Header() {
         SUPER_ADMIN: '/admin',
         ADMIN: '/admin',
         DOCTOR: '/doctor',
-        PATIENT: '/patient',
+        PATIENT: '/dashboard',
     };
 
     const { data, isLoading } = useGetMe();

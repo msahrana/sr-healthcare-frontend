@@ -25,6 +25,7 @@ export default function DoctorApprovalTableLoading() {
                         <TableHead className="text-right">Action</TableHead>
                     </TableRow>
                 </TableHeader>
+
                 <TableBody>
                     {[1, 2, 3].map((item) => (
                         <TableRow key={item}>

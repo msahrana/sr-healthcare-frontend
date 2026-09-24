@@ -1,12 +1,11 @@
 'use client';
 
-import ScheduleTable from './schedule-table';
 import { Suspense, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScheduleParams, ScheduleStatus } from '@/interface';
-
-import ScheduleListLoading from './schedule-list-loading';
 import ScheduleCreateDialog from './schedule-create-dialog';
+import ScheduleListLoading from './schedule-list-loading';
+import ScheduleTable from './schedule-table';
 
 const statuses: ['ALL' | ScheduleStatus, string][] = [
     ['ALL', 'All'],

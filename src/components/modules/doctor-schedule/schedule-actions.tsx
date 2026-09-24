@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/toast';
-
-import ScheduleDetailSheet from './schedule-detail-sheet';
-import { Schedule } from '@/interface';
 import { useDeleteSchedule, usePublishSchedule } from '@/hooks';
+import { Schedule } from '@/interface';
+import ScheduleDetailSheet from './schedule-detail-sheet';
 
 const ScheduleActions = ({ schedule }: { schedule: Schedule }) => {
     const [detailOpen, setDetailOpen] = useState(false);

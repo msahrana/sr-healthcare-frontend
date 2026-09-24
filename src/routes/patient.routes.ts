@@ -1,4 +1,4 @@
-const prefix = '/patient';
+const prefix = '/dashboard';
 
 export const patientRoutes = [
     {
@@ -10,7 +10,7 @@ export const patientRoutes = [
             },
             {
                 title: 'My Appointments',
-                url: `${prefix}/my-appointment-list`,
+                url: `${prefix}/my-appointments`,
             },
         ],
     },

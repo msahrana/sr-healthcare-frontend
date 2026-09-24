@@ -1,3 +1,4 @@
+import { SearchX } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,9 +9,9 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import TablePagination from '@/components/ui/table-pagination';
 import { useSuspenseGetAllDoctors } from '@/hooks';
 import { DoctorParams } from '@/interface';
-import TablePagination from '@/components/ui/table-pagination';
 
 interface Props extends DoctorParams {
     handleReview: Dispatch<SetStateAction<string>>;
@@ -26,60 +27,89 @@ export default function DoctorApprovalTable({
 
     const doctors = data?.data ?? [];
     const totalPages = data?.meta?.totalPages ?? 0;
+    const isEmpty = doctors.length === 0;
 
     return (
         <>
-            <div className="border rounded-lg">
+            <div className="overflow-hidden rounded-lg border bg-card">
                 <Table>
                     <TableHeader>
-                        <TableRow>
+                        <TableRow className="hover:bg-transparent">
                             <TableHead>Name</TableHead>
                             <TableHead>License No.</TableHead>
                             <TableHead>Email</TableHead>
                             <TableHead>Contact No.</TableHead>
                             <TableHead>Specialization</TableHead>
+                            <TableHead>Experience (Years)</TableHead>
                             <TableHead className="text-right">Action</TableHead>
                         </TableRow>
                     </TableHeader>
 
                     <TableBody>
-                        {doctors.map((doctor) => (
-                            <TableRow key={doctor.id}>
-                                <TableCell>{doctor.name}</TableCell>
-                                <TableCell>{doctor.licenseNumber}</TableCell>
-                                <TableCell>{doctor.email}</TableCell>
-                                <TableCell>
-                                    {doctor.contactNumber
-                                        ? doctor.contactNumber
-                                        : '-'}
-                                </TableCell>
-                                <TableCell>{doctor.specialization}</TableCell>
-                                <TableCell className="text-right">
-                                    {doctor.user.emailVerified ? (
-                                        <Button
-                                            variant="outline"
-                                            onClick={() =>
-                                                handleReview(doctor.id)
-                                            }
-                                            disabled={
-                                                doctor.verificationStatus !==
-                                                'PENDING'
-                                            }
-                                        >
-                                            Review
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            disabled
-                                            variant="outline"
-                                            size="sm"
-                                        >
-                                            Not Verified
-                                        </Button>
-                                    )}
+                        {isEmpty ? (
+                            <TableRow className="hover:bg-transparent">
+                                <TableCell colSpan={6}>
+                                    <div className="flex flex-col items-center justify-center gap-2 px-6 py-12 text-center">
+                                        <span className="rounded-full bg-muted p-3">
+                                            <SearchX className="size-5 text-muted-foreground" />
+                                        </span>
+                                        <p className="font-medium">
+                                            No doctors found
+                                        </p>
+                                        <p className="max-w-sm text-sm text-muted-foreground">
+                                            {params.searchTerm
+                                                ? `No results for "${params.searchTerm}". Try a different name or email.`
+                                                : 'There are no doctors in this view yet.'}
+                                        </p>
+                                    </div>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : (
+                            doctors.map((doctor) => (
+                                <TableRow key={doctor.id}>
+                                    <TableCell>{doctor.name}</TableCell>
+                                    <TableCell>
+                                        {doctor.licenseNumber}
+                                    </TableCell>
+                                    <TableCell>{doctor.email}</TableCell>
+                                    <TableCell>
+                                        {doctor.contactNumber
+                                            ? doctor.contactNumber
+                                            : '- - -'}
+                                    </TableCell>
+                                    <TableCell>
+                                        {doctor.specialization}
+                                    </TableCell>
+                                    <TableCell>
+                                        {doctor.experienceYears}
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        {doctor.user.emailVerified ? (
+                                            <Button
+                                                variant="outline"
+                                                onClick={() =>
+                                                    handleReview(doctor.id)
+                                                }
+                                                disabled={
+                                                    doctor.verificationStatus !==
+                                                    'PENDING'
+                                                }
+                                            >
+                                                Review
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                disabled
+                                                variant="outline"
+                                                size="sm"
+                                            >
+                                                Not Verified
+                                            </Button>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>

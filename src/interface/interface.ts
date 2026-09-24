@@ -23,7 +23,6 @@ export interface DoctorApplicationData {
     user: {
         name: string;
         email: string;
-        password?: string;
     };
     doctor: {
         specialization: string;
@@ -83,6 +82,27 @@ export interface ApproveDoctorPayload {
     doctorId: string;
     verificationStatus: 'APPROVED' | 'REJECTED';
     rejectionReason?: string;
+}
+
+export interface PublicDoctorProfile {
+    id: string;
+    name: string;
+    specialization: string;
+    licenseNumber: string;
+    qualifications: string;
+    experienceYears: number;
+    bio?: string | null;
+    consultationFee?: number | string | null;
+    createdAt: string;
+}
+
+export interface PublicDoctorParams {
+    page?: number;
+    limit?: number;
+    searchTerm?: string;
+    specialization?: string;
+    sortBy?: string;
+    sortOrder?: 'desc' | 'asc';
 }
 
 // Sidebar Interface

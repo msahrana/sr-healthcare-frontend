@@ -31,10 +31,12 @@ const AppointmentList = () => {
         return (
             <div>
                 <div>
-                    <h1>Payment Successful</h1>
+                    <h1 className="text-green-600">Payment Successful</h1>
                     <p>Please be prepared to join the video call</p>
                     <Link href="/dashboard/my-appointments">
-                        Go back to appointments
+                        <span className="mt-1 bg-blue-600">
+                            Go back to appointments
+                        </span>
                     </Link>
                 </div>
             </div>
@@ -42,7 +44,7 @@ const AppointmentList = () => {
     }
 
     if (appointments.length === 0) {
-        return <p>There is not appointment</p>;
+        return <p>There is not appointment.</p>;
     }
 
     return (
@@ -50,10 +52,18 @@ const AppointmentList = () => {
             {appointments.map(({ doctor, status, id }) => (
                 <div key={id} className="border rounded-md p-3">
                     <div className="w-full flex gap-3">
-                        <span>Doctor: {doctor.name}</span>
-                        <span>Status: {status}</span>
+                        <p>
+                            Doctor:{' '}
+                            <span className="font-bold mr-4">
+                                {doctor.name}
+                            </span>
+                        </p>
+                        <p>
+                            Status:<span className="text-green-600 font-bold"> {status}</span>
+                        </p>
+
                         <div className="ml-auto">
-                            <Button>Join</Button>
+                            <Button>Join Meet</Button>
                         </div>
                     </div>
                 </div>

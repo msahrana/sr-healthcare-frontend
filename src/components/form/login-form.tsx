@@ -31,16 +31,20 @@ export default function LoginForm() {
 
     const form = useForm({
         // defaultValues: {
-        //     email: 'tara.mony@srhealthcare.com',
+        //     email: 'tara.mony@srhealthcare.com', //admin
         //     password: '$2b$12$TaraMonymost7860',
         // },
         // defaultValues: {
-        //     email: 'testerdoctor@gmail.com',
+        //     email: 'testerdoctor@gmail.com', //doctor
         //     password: 'Tester@doctor12345',
         // },
+        // defaultValues: {
+        //     email: 'drsiyana3@gmail.com', //doctor
+        //     password: '5*MCj*Fgj5',
+        // },
         defaultValues: {
-            email: 'drsiyana3@gmail.com',
-            password: '5*MCj*Fgj5',
+            email: 'msahossainrana@gmail.com', //patient
+            password: '$2b$12$SAyed2244',
         },
 
         validators: {
