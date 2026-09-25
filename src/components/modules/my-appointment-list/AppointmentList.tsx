@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useGetMyAppointments } from '@/hooks/appointment.hook';
+import { Video } from 'lucide-react';
 
 const AppointmentList = () => {
     const params = useSearchParams();
@@ -53,17 +54,31 @@ const AppointmentList = () => {
                 <div key={id} className="border rounded-md p-3">
                     <div className="w-full flex gap-3">
                         <p>
-                            Doctor:{' '}
+                            Doctor:
                             <span className="font-bold mr-4">
                                 {doctor.name}
                             </span>
                         </p>
                         <p>
-                            Status:<span className="text-green-600 font-bold"> {status}</span>
+                            Status:
+                            <span className="text-green-600 font-bold">
+                                {status}
+                            </span>
                         </p>
 
                         <div className="ml-auto">
-                            <Button>Join Meet</Button>
+                            <Button className="gap-2">
+                                <Link
+                                    href="https://meet.google.com/aiu-ctor-moh"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <div className="flex gap-2 items-center">
+                                        <Video className="size-4 text-red-500" />
+                                        Join Meet
+                                    </div>
+                                </Link>
+                            </Button>
                         </div>
                     </div>
                 </div>

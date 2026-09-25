@@ -14,17 +14,17 @@ export const patientRoutes = [
             },
         ],
     },
+
     {
-        title: 'App Settings',
+        title: 'Account',
         items: [
             {
-                title: 'Routing',
-                url: '#',
+                title: 'Profile',
+                url: `${prefix}/profile`,
             },
             {
-                title: 'Data Fetching',
-                url: '#',
-                isActive: true,
+                title: 'Settings',
+                url: `${prefix}/settings`,
             },
         ],
     },
