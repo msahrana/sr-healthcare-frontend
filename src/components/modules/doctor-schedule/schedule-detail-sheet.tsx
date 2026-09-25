@@ -8,6 +8,7 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { Schedule } from '@/interface';
+import Link from 'next/link';
 
 interface Props {
     schedule: Schedule;
@@ -76,14 +77,14 @@ const ScheduleDetailSheet = ({ schedule, open, onClose }: Props) => {
                         <dt className="text-muted-foreground">Meeting link</dt>
 
                         <dd className="truncate">
-                            <a
+                            <Link
                                 href={schedule.meetingLink}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="underline underline-offset-4 text-green-600 font-bold hover:text-primary"
                             >
                                 Join
-                            </a>
+                            </Link>
                         </dd>
                     </div>
                 </dl>

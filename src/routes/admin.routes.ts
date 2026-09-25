@@ -12,18 +12,43 @@ export const adminRoutes = [
                 title: 'Doctor Approval',
                 url: `${prefix}/approve-doctor`,
             },
+            {
+                title: 'Doctors',
+                url: `${prefix}/doctors`,
+            },
+            {
+                title: 'Patients',
+                url: `${prefix}/patients`,
+            },
         ],
     },
     {
-        title: 'App Settings',
+        title: 'Appointments',
         items: [
             {
-                title: 'Routing',
-                url: '#',
+                title: 'Appointments',
+                url: `${prefix}/appointments`,
             },
             {
-                title: 'Data Fetching',
-                url: '#',
+                title: 'Prescriptions',
+                url: `${prefix}/prescriptions`,
+            },
+            {
+                title: 'Medical Records',
+                url: `${prefix}/medical-records`,
+            },
+        ],
+    },
+    {
+        title: 'Finance & Reports',
+        items: [
+            {
+                title: 'Payments',
+                url: `${prefix}/payments`,
+            },
+            {
+                title: 'Analytics',
+                url: `${prefix}/analytics`,
             },
         ],
     },

@@ -239,7 +239,8 @@ export default function FeaturedDoctors() {
 
                                 {/* Button */}
                                 <Link
-                                    href={`/doctors/${doctor.id}`}
+                                    // href={`/doctors/${doctor.id}`}
+                                    href={'#'}
                                     className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-blue-600 px-4 py-3 text-sm font-semibold text-blue-600 transition hover:bg-blue-600 hover:text-white"
                                 >
                                     View Profile

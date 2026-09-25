@@ -9,6 +9,7 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 
 const stats = [
     {
@@ -271,7 +272,7 @@ const DoctorPage = () => {
 
                 <CardContent>
                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                        <a
+                        <Link
                             href="/doctor/schedules"
                             className="rounded-lg border p-4 transition-colors hover:bg-muted"
                         >
@@ -282,9 +283,9 @@ const DoctorPage = () => {
                             <p className="mt-1 text-xs text-muted-foreground">
                                 Create and manage your availability.
                             </p>
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/doctor/appointments"
                             className="rounded-lg border p-4 transition-colors hover:bg-muted"
                         >
@@ -295,9 +296,9 @@ const DoctorPage = () => {
                             <p className="mt-1 text-xs text-muted-foreground">
                                 View and manage patient appointments.
                             </p>
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/doctor/patients"
                             className="rounded-lg border p-4 transition-colors hover:bg-muted"
                         >
@@ -308,9 +309,9 @@ const DoctorPage = () => {
                             <p className="mt-1 text-xs text-muted-foreground">
                                 View your patient information and history.
                             </p>
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/doctor/prescriptions"
                             className="rounded-lg border p-4 transition-colors hover:bg-muted"
                         >
@@ -321,7 +322,7 @@ const DoctorPage = () => {
                             <p className="mt-1 text-xs text-muted-foreground">
                                 Create and review patient prescriptions.
                             </p>
-                        </a>
+                        </Link>
                     </div>
                 </CardContent>
             </Card>

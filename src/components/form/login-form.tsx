@@ -38,14 +38,14 @@ export default function LoginForm() {
         //     email: 'testerdoctor@gmail.com', //doctor
         //     password: 'Tester@doctor12345',
         // },
-        defaultValues: {
-            email: 'drsiyana3@gmail.com', //doctor
-            password: '5*MCj*Fgj5',
-        },
         // defaultValues: {
-        //     email: 'msahossainrana@gmail.com', //patient
-        //     password: '$2b$12$SAyed2244',
+        //     email: 'drsiyana3@gmail.com', //doctor
+        //     password: '5*MCj*Fgj5',
         // },
+        defaultValues: {
+            email: 'msahossainrana@gmail.com', //patient
+            password: '$2b$12$SAyed2244',
+        },
 
         validators: {
             onSubmit: loginSchema,

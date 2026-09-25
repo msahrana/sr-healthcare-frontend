@@ -36,7 +36,7 @@ const steps: Step[] = [
         title: 'Book Appointment',
         description:
             'Choose an available schedule and book an appointment at a time that works best for you.',
-        href: '/appointments',
+        href: '/dashboard/my-appointments',
         icon: (
             <svg
                 aria-hidden="true"
@@ -57,10 +57,10 @@ const steps: Step[] = [
     },
     {
         number: '03',
-        title: 'Secure Payment',
+        title: 'Dashboard',
         description:
             'Complete your appointment payment through a secure and convenient online payment process.',
-        href: '/appointments',
+        href: '/dashboard',
         icon: (
             <svg
                 aria-hidden="true"
@@ -78,10 +78,10 @@ const steps: Step[] = [
     },
     {
         number: '04',
-        title: 'Online Consultation',
+        title: 'Online Contact',
         description:
             'Meet your doctor online, discuss your health concerns, and receive professional medical guidance.',
-        href: '/appointments',
+        href: '/contact-us',
         icon: (
             <svg
                 aria-hidden="true"
