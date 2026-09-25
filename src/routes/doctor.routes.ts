@@ -2,29 +2,59 @@ const prefix = '/doctor';
 
 export const doctorRoutes = [
     {
-        title: 'Schedule',
+        title: 'Overview',
         items: [
             {
-                title: 'Overview',
+                title: 'Dashboard',
                 url: `${prefix}`,
             },
             {
-                title: 'Create Schedule',
+                title: 'Appointments',
+                url: `${prefix}/appointments`,
+            },
+            {
+                title: 'My Schedule',
                 url: `${prefix}/schedules`,
             },
         ],
     },
+
     {
-        title: 'App Settings',
+        title: 'Patients',
         items: [
             {
-                title: 'Routing',
-                url: '#',
+                title: 'My Patients',
+                url: `${prefix}/patients`,
             },
             {
-                title: 'Data Fetching',
-                url: '#',
-                isActive: true,
+                title: 'Medical Records',
+                url: `${prefix}/medical-records`,
+            },
+        ],
+    },
+    {
+        title: 'Clinical',
+        items: [
+            {
+                title: 'Prescriptions',
+                url: `${prefix}/prescriptions`,
+            },
+            {
+                title: 'Consultations',
+                url: `${prefix}/consultations`,
+            },
+        ],
+    },
+    {
+        title: 'Account',
+        items: [
+            {
+                title: 'Profile',
+                url: `${prefix}/profile`,
+            },
+            {
+                title: 'Settings',
+                url: `${prefix}/settings`,
             },
         ],
     },

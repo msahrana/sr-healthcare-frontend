@@ -79,8 +79,10 @@ const PrescriptionsPage = () => {
 
                 <Button>
                     <Link href="/dashboard/doctors">
-                        <Stethoscope className="mr-2 size-4" />
-                        Find a Doctor
+                        <div className="flex">
+                            <Stethoscope className="mr-2 size-4" />
+                            Find a Doctor
+                        </div>
                     </Link>
                 </Button>
             </div>
