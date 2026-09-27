@@ -108,7 +108,6 @@ const DoctorApplyForm = () => {
                 user: {
                     name: value.name.trim(),
                     email: value.email.trim(),
-                    password: value.password.trim(),
                 },
                 doctor: {
                     specialization: value.specialization.trim(),
