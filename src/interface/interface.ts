@@ -105,6 +105,32 @@ export interface PublicDoctorParams {
     sortOrder?: 'desc' | 'asc';
 }
 
+// Chat Interface
+export interface ChatDoctor {
+    id: string;
+    name: string;
+    specialization: string;
+    consultationFee: number | string | null;
+}
+
+export interface ChatReplyData {
+    sessionId: string;
+    answer: string;
+    doctors: ChatDoctor[];
+}
+
+export interface ChatMessagePayload {
+    message: string;
+    sessionId?: string;
+}
+
+export interface ChatReplyResponse {
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: ChatReplyData;
+}
+
 // Sidebar Interface
 export interface SidebarItem {
     title: string;

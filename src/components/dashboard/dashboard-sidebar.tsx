@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import {
     Sidebar,
     SidebarContent,
@@ -14,8 +15,10 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from '@/components/ui/sidebar';
+
 import { SidebarItems, UserRole } from '@/interface';
 import { adminRoutes, doctorRoutes, patientRoutes } from '@/routes';
+
 import Logo from '../logo/logo';
 
 const sidebarRoutes: Partial<Record<UserRole, SidebarItems>> = {
@@ -27,7 +30,8 @@ const sidebarRoutes: Partial<Record<UserRole, SidebarItems>> = {
 
 export function DashboardSidebar({ role }: { role: UserRole }) {
     const pathname = usePathname();
-    const routes: SidebarItems = sidebarRoutes[role] || [];
+
+    const routes = sidebarRoutes[role] ?? [];
 
     return (
         <Sidebar>
@@ -36,26 +40,39 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
             </SidebarHeader>
 
             <SidebarContent>
-                {routes.map((item) => (
-                    <SidebarGroup key={item.title}>
-                        <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+                {routes.map((group) => (
+                    <SidebarGroup key={group.title}>
+                        <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+
                         <SidebarGroupContent>
                             <SidebarMenu>
-                                {item.items.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton
-                                            render={<Link href={item.url} />}
-                                            isActive={pathname === item.url}
-                                        >
-                                            {item.title}
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                ))}
+                                {group.items.map((item) => {
+                                    const isActive =
+                                        pathname === item.url ||
+                                        (item.url !== '/admin' &&
+                                            pathname.startsWith(
+                                                `${item.url}/`,
+                                            ));
+
+                                    return (
+                                        <SidebarMenuItem key={item.title}>
+                                            <SidebarMenuButton
+                                                render={
+                                                    <Link href={item.url} />
+                                                }
+                                                isActive={isActive}
+                                            >
+                                                {item.title}
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    );
+                                })}
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>
                 ))}
             </SidebarContent>
+
             <SidebarRail />
         </Sidebar>
     );

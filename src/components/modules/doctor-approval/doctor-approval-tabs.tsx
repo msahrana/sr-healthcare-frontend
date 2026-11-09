@@ -1,13 +1,23 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { ChangeEvent, Suspense, useState } from 'react';
+
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useDebounce from '@/hooks/debounce.hook';
 import { DoctorParams, DoctorVerificationStatus } from '@/interface';
+
 import DoctorApprovalTable from './doctor-approval-table';
 import DoctorApprovalTableLoading from './doctor-approval-table-loading';
-import DoctorReviewSheet from './doctor-review-sheet';
+
+const DoctorReviewSheet = dynamic(() => import('./doctor-review-sheet'), {
+    loading: () => (
+        <div className="p-4 text-sm text-muted-foreground">
+            Loading doctor details...
+        </div>
+    ),
+});
 
 const verificationStatus: ['ALL' | DoctorVerificationStatus, string][] = [
     ['APPROVED', 'Approved'],
@@ -40,16 +50,17 @@ export default function DoctorApprovalTabs() {
 
     return (
         <>
-            <div className="flex justify-between my-5">
+            <div className="my-5 flex justify-between">
                 <div>
                     <Input
-                        onChange={(e) => handleSearch(e)}
+                        onChange={handleSearch}
+                        value={searchInput}
                         type="search"
                         placeholder="Search by name or email"
                     />
                 </div>
 
-                <Tabs value={tab} onValueChange={(value) => setTab(value)}>
+                <Tabs value={tab} onValueChange={setTab}>
                     <TabsList>
                         {verificationStatus.map(([value, label]) => (
                             <TabsTrigger key={value} value={value}>
@@ -68,11 +79,13 @@ export default function DoctorApprovalTabs() {
                 />
             </Suspense>
 
-            <DoctorReviewSheet
-                selectedId={selectedId}
-                onClose={() => setSelectedId('')}
-                {...queryParams}
-            />
+            {selectedId && (
+                <DoctorReviewSheet
+                    selectedId={selectedId}
+                    onClose={() => setSelectedId('')}
+                    {...queryParams}
+                />
+            )}
         </>
     );
 }

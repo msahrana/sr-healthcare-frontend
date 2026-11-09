@@ -1,5 +1,7 @@
+'use client';
+
 import { useState } from 'react';
-import CreateScheduleForm from '@/components/form/create-schedule-form';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -9,6 +11,20 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+
+const CreateScheduleForm = dynamic(
+    () => import('@/components/form/create-schedule-form'),
+    {
+        loading: () => (
+            <div className="space-y-3 py-4">
+                <div className="h-10 animate-pulse rounded-md bg-muted" />
+                <div className="h-10 animate-pulse rounded-md bg-muted" />
+                <div className="h-10 animate-pulse rounded-md bg-muted" />
+            </div>
+        ),
+        ssr: false,
+    },
+);
 
 const ScheduleCreateDialog = () => {
     const [open, setOpen] = useState(false);
@@ -28,7 +44,9 @@ const ScheduleCreateDialog = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <CreateScheduleForm handleClose={() => setOpen(false)} />
+                {open && (
+                    <CreateScheduleForm handleClose={() => setOpen(false)} />
+                )}
             </DialogContent>
         </Dialog>
     );

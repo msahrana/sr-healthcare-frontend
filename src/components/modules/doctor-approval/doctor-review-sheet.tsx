@@ -1,4 +1,4 @@
-import { Separator } from '@base-ui/react';
+import { Separator } from '@/components/ui/separator';
 import {
     BadgeCheck,
     Mail,

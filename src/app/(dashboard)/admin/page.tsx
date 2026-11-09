@@ -11,6 +11,7 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 
 const stats = [
     {
@@ -196,12 +197,12 @@ const AdminPage = () => {
                                 Doctors waiting for approval
                             </p>
 
-                            <a
+                            <Link
                                 href="/admin/approve-doctor"
                                 className="mt-4 text-sm font-medium text-primary hover:underline"
                             >
                                 Review applications →
-                            </a>
+                            </Link>
                         </div>
                     </CardContent>
                 </Card>
