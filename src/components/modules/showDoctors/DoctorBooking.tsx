@@ -168,10 +168,4 @@ const DoctorBooking = ({ doctorId }: { doctorId: string }) => {
 
 export default DoctorBooking;
 
-
-
-
-
-
-
-//Payment failed => http://localhost:3000/dashboard/my-appointments?status=failue
+//Payment failed => https://sr-healthcare-backend.vercel.app/dashboard/my-appointments?status=failue
